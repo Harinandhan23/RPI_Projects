@@ -1,14 +1,22 @@
-import RPi.GPIO as gpio
-import time
+from gpiozero import LED, Button
+from time import sleep
 
-gpio.setwarnings(False)
-gpio.setmode(gpio.BCM)
-gpio.cleanup()
-pin = 16
+count = 0
 
-gpio.setup(pin, gpio.OUT, initial=gpio.LOW)
+def incoming():
+    global count
+    count = count + 1
+    print("Pressed", count)
+    
+key1 = Button(17)
+pin = LED(16)
 
-time.sleep(10)
-gpio.output(pin, gpio.HIGH)
+key1.when_pressed = incoming
 
-print("finished")
+while True:
+    
+    pin.on()
+    sleep(1)
+    pin.off()
+    sleep(1)
+
